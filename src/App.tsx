@@ -2,6 +2,8 @@ import React, {lazy, Suspense} from "react";
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
+import {TestProvider} from "./contexts/TestContext";
+
 const Home = lazy(()=>import("./pages/Home/Home"));
 
 function App():React.ReactElement {
@@ -9,9 +11,11 @@ function App():React.ReactElement {
         <div className="App bg-gray-300">
             <BrowserRouter>
                 <Suspense>
-                    <Routes>
-                        <Route path="/" element={<Home/>}/>
-                    </Routes>
+                    <TestProvider>
+                        <Routes>
+                            <Route path="/" element={<Home/>}/>
+                        </Routes>
+                    </TestProvider>
                 </Suspense>
             </BrowserRouter>
         </div>
