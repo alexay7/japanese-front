@@ -5,7 +5,8 @@ export interface QuestionParams {
     category?:string,
     sections?:string[],
     questionNum?:number,
-    level?:number
+    level?:string,
+    type?:testTypes
 }
 
 export enum testTypes {

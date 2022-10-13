@@ -1,17 +1,20 @@
 import React from "react";
 
 import {Checkbox} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 import {useTest} from "../../contexts/TestContext";
+import {testTypes} from "../../types/params";
 
 interface PopupProps {
     selected:string,
     closePopup:(status:string)=>void;
 }
 
-export function Popup(props:PopupProps):React.ReactElement {
+function Popup(props:PopupProps):React.ReactElement {
     const {selected, closePopup} = props;
     const {handleParams, params} = useTest();
+    const navigate = useNavigate();
 
     return (
         <div className="fixed top-0 left-0 w-full h-screen bg-gray-800 bg-opacity-70 flex justify-center items-center z-10">
@@ -38,10 +41,18 @@ export function Popup(props:PopupProps):React.ReactElement {
                         value={params?.questionNum}
                         />
                     </div>
-                    <button className="w-full text-lg bg-blue-500 border-blue-800 border-2 px-4 py-2 rounded-xl text-white font-semibold">はじめる</button>
+                    <button className="w-full text-lg bg-blue-500 border-blue-800 border-2 px-4 py-2 rounded-xl text-white font-semibold"
+                        onClick={()=>{
+                            handleParams({level:selected, type:testTypes.normal});
+                            navigate("/quiz");
+                        }}
+                    >はじめる
+                    </button>
                     <button className="w-3/4 m-auto text-base bg-orange-500 border-orange-800 border-2 px-4 py-2 rounded-xl text-white font-semibold">弱点克服</button>
                 </div>
             </div>
         </div>
     );
 }
+
+export default Popup;

@@ -2,9 +2,9 @@ import React, {useState} from "react";
 
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
-import {Popup} from "../../../components/Popup/Popup";
+import Popup from "../../../components/Popup/Popup";
 
-export function DefaultTests():React.ReactElement {
+function DefaultTests():React.ReactElement {
     const [selectedTest, setSelectedTest] = useState("");
 
     return (
@@ -77,3 +77,5 @@ export function DefaultTests():React.ReactElement {
         </div>
     );
 }
+
+export default DefaultTests;

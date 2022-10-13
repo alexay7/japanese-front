@@ -7,12 +7,6 @@ interface TestContextProps {
 }
 
 export type TestContextType = {
-    testType:string,
-    setTestType:(value:testTypes)=>void,
-
-    level:string,
-    setLevel:(value:string)=>void,
-
     params:QuestionParams | undefined,
     handleParams:(value:QuestionParams)=>void,
 };
@@ -25,11 +19,11 @@ export function useTest():TestContextType {
 
 export function TestProvider(props:TestContextProps):React.ReactElement {
     const {children} = props;
-    const [testType, setTestType] = useState<testTypes>(testTypes.normal);
-    const [level, setLevel] = useState("");
     const [params, setParams] = useState<QuestionParams>({
         questionNum:10,
-        timer:false
+        timer:false,
+        type:testTypes.normal,
+        level:"N5"
     });
 
     function handleParams(newparams:QuestionParams):void {
@@ -37,9 +31,7 @@ export function TestProvider(props:TestContextProps):React.ReactElement {
     }
 
     return (
-        <TestContext.Provider value={{testType:testType, level:level,
-            params:params, setTestType:setTestType, setLevel:setLevel, handleParams:handleParams}}
-        >
+        <TestContext.Provider value={{params:params, handleParams:handleParams}}>
             {children}
         </TestContext.Provider>
     );
