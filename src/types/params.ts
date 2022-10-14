@@ -6,11 +6,6 @@ export interface QuestionParams {
     sections?:string[],
     questionNum?:number,
     level?:string,
-    type?:testTypes
-}
-
-export enum testTypes {
-    normal = "normal",
-    retry = "retry",
-    real = "real"
+    type?:"normal" | "retry" | "real" | "exercises",
+    skip?:number
 }

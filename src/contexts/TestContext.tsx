@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState} from "react";
 
-import {QuestionParams, testTypes} from "../types/params";
+import {QuestionParams} from "../types/params";
 
 interface TestContextProps {
     children:React.ReactNode
@@ -22,7 +22,7 @@ export function TestProvider(props:TestContextProps):React.ReactElement {
     const [params, setParams] = useState<QuestionParams>({
         questionNum:10,
         timer:false,
-        type:testTypes.normal,
+        type:"normal",
         level:"N5"
     });
 

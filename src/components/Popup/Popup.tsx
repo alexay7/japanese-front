@@ -4,7 +4,6 @@ import {Checkbox} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 import {useTest} from "../../contexts/TestContext";
-import {testTypes} from "../../types/params";
 
 interface PopupProps {
     selected:string,
@@ -43,7 +42,7 @@ function Popup(props:PopupProps):React.ReactElement {
                     </div>
                     <button className="w-full text-lg bg-blue-500 border-blue-800 border-2 px-4 py-2 rounded-xl text-white font-semibold"
                         onClick={()=>{
-                            handleParams({level:selected, type:testTypes.normal});
+                            handleParams({level:selected, type:"normal"});
                             navigate("/quiz");
                         }}
                     >はじめる
