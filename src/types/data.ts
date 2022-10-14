@@ -1,34 +1,42 @@
 export const levelData = {
     kanji:{
-        "name":"Kanjis",
+        "name":"漢字読み",
+        "spanish_name":"Lectura de kanjis",
         "description":""
     },
     ortografia:{
-        "name":"Ortografía",
+        "name":"表記",
+        "spanish_name":"Ortografía",
         "description":""
     },
     formacion:{
-        "name":"Formación de palabras",
+        "name":"語形成",
+        "spanish_name":"Formación de palabras",
         "description":""
     },
     contexto:{
-        "name":"Expresiones contextuales",
+        "name":"文脈規定",
+        "spanish_name":"Contexto",
         "description":""
     },
     parafrases:{
-        "name":"Parafraseo",
+        "name":"言い換え類義",
+        "spanish_name":"Parafrases",
         "description":""
     },
     uso:{
-        "name":"Uso de palabras",
+        "name":"用法",
+        "spanish_name":"Uso de palabras",
         "description":""
     },
     gramaticafrases:{
-        "name":"Formas gramaticales",
+        "name":"文法形式の判断",
+        "spanish_name":"Formas Gramaticales",
         "description":""
     },
     ordenar:{
-        "name":"Ordenar frases",
+        "name":"文の組み立て",
+        "spanish_name":"Orden de frases",
         "description":""
     }
 };

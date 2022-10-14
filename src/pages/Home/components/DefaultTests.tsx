@@ -18,31 +18,31 @@ function DefaultTests():React.ReactElement {
                     hover:bg-white hover:border-red-600 hover:text-red-600 hover:animate-pulse"
                     onClick={()=>setSelectedTest("N5")}
                     >
-                        <p className="text-xl font-bold">N5</p>
+                        <p className="text-xl font-bold">JLPT N5</p>
                     </li>
                     <li className="duration-500 cursor-pointer text-white py-4
                     px-8 bg-orange-500 border-orange-700 border-4 rounded-xl text-center
                     hover:bg-white hover:border-orange-600 hover:text-orange-600 hover:animate-pulse" onClick={()=>setSelectedTest("N4")}
                     >
-                        <p className="text-xl font-bold">N4</p>
+                        <p className="text-xl font-bold">JLPT N4</p>
                     </li>
                     <li className="duration-500 cursor-pointer text-white py-4
                     px-8 bg-green-500 border-green-700 border-4 rounded-xl text-center
                     hover:bg-white hover:border-green-600 hover:text-green-600 hover:animate-pulse" onClick={()=>setSelectedTest("N3")}
                     >
-                        <p className="text-xl font-bold">N3</p>
+                        <p className="text-xl font-bold">JLPT N3</p>
                     </li>
                     <li className="duration-500 cursor-pointer text-white py-4
                     px-8 bg-blue-500 border-blue-700 border-4 rounded-xl text-center
                     hover:bg-white hover:border-blue-600 hover:text-blue-600 hover:animate-pulse" onClick={()=>setSelectedTest("N2")}
                     >
-                        <p className="text-xl font-bold">N2</p>
+                        <p className="text-xl font-bold">JLPT N2</p>
                     </li>
                     <li className="duration-500 cursor-pointer text-white py-4
                     px-8 bg-pink-500 border-pink-700 border-4 rounded-xl text-center
                     hover:bg-white hover:border-pink-600 hover:text-pink-600 hover:animate-pulse" onClick={()=>setSelectedTest("N1")}
                     >
-                        <p className="text-xl font-bold">N1</p>
+                        <p className="text-xl font-bold">JLPT N1</p>
                     </li>
                 </ul>
             </div>

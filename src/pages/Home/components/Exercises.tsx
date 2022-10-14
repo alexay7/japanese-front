@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useState} from "react";
 
+import {FormControl, MenuItem, Select} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 import {useTest} from "../../../contexts/TestContext";
@@ -18,16 +20,19 @@ export function Exercises():React.ReactElement {
 
     return (
         <div>
-            <div className="">
-                <select name="" id="" onChange={(e)=>setSelectedLevel(e.target.value)} value={selectedLevel}>
-                    <option value="N1">N1</option>
-                    <option value="N2">N2</option>
-                    <option value="N3">N3</option>
-                    <option value="N4">N4</option>
-                    <option value="N5">N5</option>
-                </select>
+            <div className="flex justify-end">
+                {/* <FormControl className="flex justify-center w-1/2 text-center bg-white rounded-lg" variant="outlined">
+                    <Select onChange={(e)=>setSelectedLevel(e.target.value)} value={selectedLevel}>
+                        <MenuItem value="N1">N1</MenuItem>
+                        <MenuItem value="N2">N2</MenuItem>
+                        <MenuItem value="N3">N3</MenuItem>
+                        <MenuItem value="N4">N4</MenuItem>
+                        <MenuItem value="N5">N5</MenuItem>
+                    </Select>
+                </FormControl> */}
+                <button>Cambiar</button>
             </div>
-            <ul>
+            <ul className="flex flex-col items-center w-full gap-4 mt-4">
                 {Object.keys(parsedStats[selectedLevel as keyof Stats]).filter((x)=>x !== "passedTimes").map((exerciseType)=>{
                     const exerciseTypes = parsedStats[selectedLevel as keyof Stats];
                     const correctPercentage = ((parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats)
@@ -41,12 +46,15 @@ export function Exercises():React.ReactElement {
                             handleParams({level:selectedLevel, type:"exercises", skip:0, sections:[exerciseType]});
                             navigate("/quiz");
                         }}
+                        className="w-4/5 flex flex-col items-center bg-white rounded-lg p-2 cursor-pointer border-2 hover:border-gray-600 duration-100"
                         >
-                            <p>{levelData[exerciseType as keyof typeof levelData].name}</p>
-                            <p>{(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats).total} de
+                            <p>{levelData[exerciseType as keyof typeof levelData].name} {" "}
+                                ({levelData[exerciseType as keyof typeof levelData].spanish_name})
+                            </p>
+                            <p>{(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats).total}/
                                 {(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats).quantity}
                             </p>
-                            <div className="w-3/4 bg-white rounded-full h-4 flex overflow-hidden m-auto">
+                            <div className="w-3/4 bg-white rounded-full h-4 flex overflow-hidden m-auto border-gray-200 border-2 mt-2">
                                 <div className={"h-full bg-green-500 rounded-l-full flex items-center justify-center"} style={{width:`${correctPercentage}%`}}>
                                     <p className="text-xs text-white font-semibold">{(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats)
                                         .correct}
