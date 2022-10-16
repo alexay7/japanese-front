@@ -108,7 +108,7 @@ function Quiz():React.ReactElement {
                 window.localStorage.setItem("stats", JSON.stringify(parsedStats));
             }
         } else if (params?.type === "exercises") {
-            if (!params.level || !params.sections || !params.sections[0]) return;
+            if (!params.level || !params.sections || !params.sections[0] || params.skip === undefined) return;
             const stats = window.localStorage.getItem("stats");
             if (!stats) return;
 
@@ -118,16 +118,25 @@ function Quiz():React.ReactElement {
             const levelStats = parsedStats[level];
             const section = params.sections[0] as keyof typeof levelStats;
 
-            (levelStats[section] as SectionStats).total += 1;
-            if (answerIndex + 1 === questions[currentQuestion].correct) {
-                (levelStats[section] as SectionStats).correct += 1;
+            if (params.skip < (levelStats[section] as SectionStats).quantity) {
+                (levelStats[section] as SectionStats).total += 1;
+                if (answerIndex + 1 === questions[currentQuestion].correct) {
+                    (levelStats[section] as SectionStats).correct += 1;
+                } else {
+                    (levelStats[section] as SectionStats).wrong += 1;
+                }
+                window.localStorage.setItem("stats", JSON.stringify(parsedStats));
             } else {
-                (levelStats[section] as SectionStats).wrong += 1;
+                if (answerIndex + 1 !== questions[currentQuestion].correct) {
+                    (levelStats[section] as SectionStats).correct -= 1;
+                    (levelStats[section] as SectionStats).wrong += 1;
+                }
+                window.localStorage.setItem("stats", JSON.stringify(parsedStats));
+                (levelStats[section] as SectionStats).total = (levelStats[section] as SectionStats).quantity;
             }
-            window.localStorage.setItem("stats", JSON.stringify(parsedStats));
         }
         answered[currentQuestion] = answerIndex + 1 === questions[currentQuestion].correct ? 1 : 2;
-        if (answered[currentQuestion] === 2) {
+        if (answered[currentQuestion] === 2 && params.type !== "retry") {
             const wrong = window.localStorage.getItem("wrong");
             if (!wrong || !params?.level) return;
 
