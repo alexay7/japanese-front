@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useState} from "react";
 
 import {FormControl, MenuItem, Select} from "@mui/material";
@@ -11,7 +10,7 @@ import {SectionStats, Stats} from "../../../types/stats";
 export function Exercises():React.ReactElement {
     const {handleParams} = useTest();
     const stats = window.localStorage.getItem("stats");
-    const [selectedLevel, setSelectedLevel] = useState("N5");
+    const [selectedLevel, setSelectedLevel] = useState(window.localStorage.getItem("lastlevel") || "N5");
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const parsedStats:Stats = JSON.parse(stats || "");
@@ -20,17 +19,20 @@ export function Exercises():React.ReactElement {
 
     return (
         <div>
-            <div className="flex justify-end">
-                {/* <FormControl className="flex justify-center w-1/2 text-center bg-white rounded-lg" variant="outlined">
-                    <Select onChange={(e)=>setSelectedLevel(e.target.value)} value={selectedLevel}>
+            <div className="flex justify-center">
+                <FormControl className="flex justify-center w-1/2 text-center bg-white rounded-lg" variant="outlined">
+                    <Select onChange={(e)=>{
+                        window.localStorage.setItem("lastlevel", e.target.value);
+                        setSelectedLevel(e.target.value);
+                    }} value={selectedLevel}
+                    >
                         <MenuItem value="N1">N1</MenuItem>
                         <MenuItem value="N2">N2</MenuItem>
                         <MenuItem value="N3">N3</MenuItem>
                         <MenuItem value="N4">N4</MenuItem>
                         <MenuItem value="N5">N5</MenuItem>
                     </Select>
-                </FormControl> */}
-                <button>Cambiar</button>
+                </FormControl>
             </div>
             <ul className="flex flex-col items-center w-full gap-4 mt-4">
                 {Object.keys(parsedStats[selectedLevel as keyof Stats]).filter((x)=>x !== "passedTimes").map((exerciseType)=>{

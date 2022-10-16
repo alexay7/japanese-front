@@ -6,6 +6,7 @@ import {TestProvider} from "./contexts/TestContext";
 
 const Home = lazy(()=>import("./pages/Home/Home"));
 const Quiz = lazy(()=>import("./pages/Quiz/Quiz"));
+const Results = lazy(()=>import("./pages/Results/Results"));
 
 function App():React.ReactElement {
 
@@ -64,6 +65,17 @@ function App():React.ReactElement {
         }`);
     }
 
+    const wrong = window.localStorage.getItem("wrong");
+    if (!wrong) {
+        window.localStorage.setItem("wrong", `{
+            "N1":[],
+            "N2":[],
+            "N3":[],
+            "N4":[],
+            "N5":[]
+        }`);
+    }
+
     return (
         <div className="App bg-gray-300">
             <BrowserRouter>
@@ -74,6 +86,9 @@ function App():React.ReactElement {
                         </Routes>
                         <Routes>
                             <Route path="/quiz" element={<Quiz/>}/>
+                        </Routes>
+                        <Routes>
+                            <Route path="/results" element={<Results/>}/>
                         </Routes>
                     </TestProvider>
                 </Suspense>

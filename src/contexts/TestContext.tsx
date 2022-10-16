@@ -9,6 +9,9 @@ interface TestContextProps {
 export type TestContextType = {
     params:QuestionParams | undefined,
     handleParams:(value:QuestionParams)=>void,
+
+    answered:number[],
+    setAnswered:(v:number[])=>void
 };
 
 export const TestContext = createContext<TestContextType>({} as TestContextType);
@@ -26,12 +29,14 @@ export function TestProvider(props:TestContextProps):React.ReactElement {
         level:"N5"
     });
 
+    const [answered, setAnswered] = useState<number[]>([]);
+
     function handleParams(newparams:QuestionParams):void {
         setParams({...params, ...newparams});
     }
 
     return (
-        <TestContext.Provider value={{params:params, handleParams:handleParams}}>
+        <TestContext.Provider value={{params:params, handleParams:handleParams, answered:answered, setAnswered:setAnswered}}>
             {children}
         </TestContext.Provider>
     );
