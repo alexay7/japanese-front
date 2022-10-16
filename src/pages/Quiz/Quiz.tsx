@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 import {Link, useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 import {ReactComponent as BatsuIcon} from "../../assets/icons/batsu.svg";
 import {ReactComponent as HomeIcon} from "../../assets/icons/home.svg";
@@ -30,7 +31,7 @@ function Quiz():React.ReactElement {
         async function getQuestions():Promise<void> {
             setLoading(true);
             const stats = window.localStorage.getItem("stats");
-            if (!stats) return;
+            if (!stats || !params) return;
 
             if (params?.type === "exercises") {
                 if (!params.level || !params.sections || !params.sections[0]) return;
@@ -40,6 +41,19 @@ function Quiz():React.ReactElement {
                 const levelStats = parsedStats[level];
                 const section = params.sections[0] as keyof typeof levelStats;
                 params.skip = (levelStats[section] as SectionStats).total;
+            } else if (params.type === "retry") {
+                const wrongAnswers = window.localStorage.getItem("wrong");
+                if (!wrongAnswers || !params.level || !params.sections) return;
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                const parsedWrong:Wrong = JSON.parse(wrongAnswers);
+                const parsedLevel = parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"];
+                const wrongArray = parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"][params.sections[0] as keyof typeof parsedLevel];
+                if (wrongArray.length < 1) {
+                    toast.error("間違った質問はありません");
+                    navigate("/");
+                    return;
+                }
+                params.wrongs = wrongArray.splice(0, 10);
             }
             const body = JSON.stringify(params);
             const response = await fetch(`${process.env.REACT_APP_API_URL}/exercises`, {method:"POST", body:body, headers:{"Content-Type":"application/json"}});
@@ -55,7 +69,7 @@ function Quiz():React.ReactElement {
             setClicked(0);
             setCurrentQuestion(0);
         };
-    }, [params, setAnswered]);
+    }, [params, setAnswered, navigate]);
 
     useEffect(()=>{
         if (questions.length > 0) {
@@ -64,9 +78,36 @@ function Quiz():React.ReactElement {
     }, [currentQuestion, questions]);
 
     function handleAnswer(answerIndex:number):void {
-        if (showAnswer) return;
+        if (showAnswer || !params) return;
         setClicked(answerIndex);
-        if (params?.type === "exercises") {
+
+        if (params.type === "retry") {
+            if (answerIndex + 1 === questions[currentQuestion].correct) {
+                // REMOVE WRONG QUESTION FROM ARRAY
+                const wrong = window.localStorage.getItem("wrong");
+                if (!wrong || !params?.level) return;
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                const parsedWrong:Wrong = JSON.parse(wrong);
+                const parsedLevel = parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"];
+                parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"][questions[currentQuestion].type as keyof typeof parsedLevel] = parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"][questions[currentQuestion].type as keyof typeof parsedLevel].filter((x)=>x !== questions[currentQuestion]._id);
+                window.localStorage.setItem("wrong", JSON.stringify(parsedWrong));
+
+                // UPDATE STATS
+                const stats = window.localStorage.getItem("stats");
+                if (!stats) return;
+
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                const parsedStats:Stats = JSON.parse(stats);
+                const level = params.level as keyof Stats;
+                const levelStats = parsedStats[level];
+                const section = questions[currentQuestion].type as keyof typeof levelStats;
+
+                (levelStats[section] as SectionStats).correct += 1;
+                (levelStats[section] as SectionStats).wrong -= 1;
+
+                window.localStorage.setItem("stats", JSON.stringify(parsedStats));
+            }
+        } else if (params?.type === "exercises") {
             if (!params.level || !params.sections || !params.sections[0]) return;
             const stats = window.localStorage.getItem("stats");
             if (!stats) return;
@@ -92,7 +133,8 @@ function Quiz():React.ReactElement {
 
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const parsedWrong:Wrong = JSON.parse(wrong);
-            parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"].push(questions[currentQuestion]._id);
+            const parsedLevel = parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"];
+            parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"][questions[currentQuestion].type as keyof typeof parsedLevel].push(questions[currentQuestion]._id);
             window.localStorage.setItem("wrong", JSON.stringify(parsedWrong));
         }
         setAnswered(answered);

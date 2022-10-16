@@ -7,5 +7,6 @@ export interface QuestionParams {
     questionNum?:number,
     level?:string,
     type?:"normal" | "retry" | "real" | "exercises",
-    skip?:number
+    skip?:number,
+    wrongs?:string[]
 }

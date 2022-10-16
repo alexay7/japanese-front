@@ -1,8 +1,11 @@
 import React, {lazy, Suspense} from "react";
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
 
 import {TestProvider} from "./contexts/TestContext";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = lazy(()=>import("./pages/Home/Home"));
 const Quiz = lazy(()=>import("./pages/Quiz/Quiz"));
@@ -68,26 +71,58 @@ function App():React.ReactElement {
     const wrong = window.localStorage.getItem("wrong");
     if (!wrong) {
         window.localStorage.setItem("wrong", `{
-            "N1":[],
-            "N2":[],
-            "N3":[],
-            "N4":[],
-            "N5":[]
+            "N1":{
+                "kanji":[],
+                "contexto":[],
+                "parafrases":[],
+                "uso":[],
+                "gramaticafrases":[],
+                "ordenar":[]
+            },
+            "N2":{
+                "kanji":[],
+                "contexto":[],
+                "parafrases":[],
+                "uso":[],
+                "gramaticafrases":[],
+                "ordenar":[]
+            },
+            "N3":{
+                "kanji":[],
+                "contexto":[],
+                "parafrases":[],
+                "uso":[],
+                "gramaticafrases":[],
+                "ordenar":[]
+            },
+            "N4":{
+                "kanji":[],
+                "contexto":[],
+                "parafrases":[],
+                "uso":[],
+                "gramaticafrases":[],
+                "ordenar":[]
+            },
+            "N5":{
+                "kanji":[],
+                "contexto":[],
+                "parafrases":[],
+                "uso":[],
+                "gramaticafrases":[],
+                "ordenar":[]
+            }
         }`);
     }
 
     return (
         <div className="App bg-gray-300">
             <BrowserRouter>
+                <ToastContainer/>
                 <Suspense>
                     <TestProvider>
                         <Routes>
                             <Route path="/" element={<Home/>}/>
-                        </Routes>
-                        <Routes>
                             <Route path="/quiz" element={<Quiz/>}/>
-                        </Routes>
-                        <Routes>
                             <Route path="/results" element={<Results/>}/>
                         </Routes>
                     </TestProvider>

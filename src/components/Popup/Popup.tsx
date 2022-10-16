@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Checkbox} from "@mui/material";
+// import {Checkbox} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 import {useTest} from "../../contexts/TestContext";
@@ -24,14 +24,14 @@ function Popup(props:PopupProps):React.ReactElement {
                 <hr className="my-4"/>
                 <div className="flex flex-col gap-4 items-start">
                     <h3 className="text-xl font-semibold text-center w-full">JLPT {selected} 全問</h3>
-                    <div className="flex items-center justify-center select-none gap-2 w-full">
+                    {/* <div className="flex items-center justify-center select-none gap-2 w-full">
                         <label htmlFor="timer">制限時間</label>
                         <Checkbox id="timer"  onChange={(e)=>{
                             handleParams({timer:e.target.checked});
                         }}
                         value={params?.timer}
                         />
-                    </div>
+                    </div> */}
                     <div className="flex flex-row justify-center w-full gap-2">
                         <label htmlFor="questionum">問題数</label>
                         <input id="questionum" type="number" className=" border-b border-gray-300 w-[4ch]" max={20} min={1} onChange={(e)=>{
@@ -47,7 +47,6 @@ function Popup(props:PopupProps):React.ReactElement {
                         }}
                     >はじめる
                     </button>
-                    <button className="w-3/4 m-auto text-base bg-orange-500 border-orange-800 border-2 px-4 py-2 rounded-xl text-white font-semibold">弱点克服</button>
                 </div>
             </div>
         </div>
