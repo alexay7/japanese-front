@@ -81,6 +81,8 @@ function App():React.ReactElement {
             },
             "N2":{
                 "kanji":[],
+                "ortografia":[],
+                "formacion":[],
                 "contexto":[],
                 "parafrases":[],
                 "uso":[],
@@ -91,12 +93,14 @@ function App():React.ReactElement {
                 "kanji":[],
                 "contexto":[],
                 "parafrases":[],
+                "ortografia":[],
                 "uso":[],
                 "gramaticafrases":[],
                 "ordenar":[]
             },
             "N4":{
                 "kanji":[],
+                "ortografia":[],
                 "contexto":[],
                 "parafrases":[],
                 "uso":[],
@@ -105,9 +109,9 @@ function App():React.ReactElement {
             },
             "N5":{
                 "kanji":[],
+                "ortografia":[],
                 "contexto":[],
                 "parafrases":[],
-                "uso":[],
                 "gramaticafrases":[],
                 "ordenar":[]
             }

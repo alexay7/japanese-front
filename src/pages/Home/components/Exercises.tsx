@@ -85,13 +85,17 @@ export function Exercises():React.ReactElement {
                                     </p>
                                 </div>
                             </div>
-                            <hr  className="w-full my-2"/>
-                            <button className="m-auto text-sm bg-red-500 border-red-800 border-2 px-4 z-10 py-1 rounded-xl text-white font-semibold mt-2" onClick={()=>{
-                                handleParams({level:selectedLevel, type:"retry", sections:[exerciseType]});
-                                navigate("/quiz");
-                            }}
-                            >弱点克服
-                            </button>
+                            {(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats).wrong > 0 && (
+                                <>
+                                    <hr  className="w-full my-2"/>
+                                    <button className="m-auto text-sm bg-red-500 border-red-800 border-2 px-4 z-10 py-1 rounded-xl text-white font-semibold mt-2" onClick={()=>{
+                                        handleParams({level:selectedLevel, type:"retry", sections:[exerciseType]});
+                                        navigate("/quiz");
+                                    }}
+                                    >弱点克服
+                                    </button>
+                                </>
+                            )}
                         </li>
                     );
                 }

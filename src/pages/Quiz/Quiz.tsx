@@ -136,7 +136,7 @@ function Quiz():React.ReactElement {
             }
         }
         answered[currentQuestion] = answerIndex + 1 === questions[currentQuestion].correct ? 1 : 2;
-        if (answered[currentQuestion] === 2 && params.type !== "retry") {
+        if (answered[currentQuestion] === 2 && params.type === "exercises") {
             const wrong = window.localStorage.getItem("wrong");
             if (!wrong || !params?.level) return;
 
