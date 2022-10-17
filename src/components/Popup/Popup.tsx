@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 
-// import {Checkbox} from "@mui/material";
+import {Checkbox, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 import {useTest} from "../../contexts/TestContext";
+import {getJapaneseName, getSections} from "../../helpers/helper";
 
 interface PopupProps {
     selected:string,
@@ -13,7 +14,21 @@ interface PopupProps {
 function Popup(props:PopupProps):React.ReactElement {
     const {selected, closePopup} = props;
     const {handleParams, params} = useTest();
+    const [testMode, setTestMode] = useState("random");
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    function handleSection(section:string):void {
+        if (params?.sections?.includes(section)) {
+            handleParams({sections:params.sections.filter((x)=>x !== section)});
+        } else {
+            if (params?.sections) {
+                handleParams({sections:[...params.sections, section]});
+            } else {
+                handleParams({sections:[section]});
+            }
+        }
+    }
 
     return (
         <div className="fixed top-0 left-0 w-full h-screen bg-gray-800 bg-opacity-70 flex justify-center items-center z-10">
@@ -40,6 +55,69 @@ function Popup(props:PopupProps):React.ReactElement {
                         value={params?.questionNum}
                         />
                     </div>
+                    <hr className="w-full"/>
+                    <div className="flex justify-center w-full">
+                        <FormControl>
+                            <FormLabel id="demo-radio-buttons-group-label" className="text-center">モード</FormLabel>
+                            <RadioGroup
+                                row
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                value={testMode}
+                                name="radio-buttons-group"
+                                onChange={(e)=>{
+                                    if (e.target.value === "random") {
+                                        setSelectedCategory(null);
+                                        handleParams({sections:[]});
+                                    }
+                                    setTestMode(e.target.value);
+                                }}
+                            >
+                                <FormControlLabel value="random" control={<Radio />} label="ランダム" />
+                                <FormControlLabel value="cat" control={<Radio />} label="試験科目" />
+                                <FormControlLabel value="sect" control={<Radio />} label="大問" />
+                            </RadioGroup>
+                        </FormControl>
+                    </div>
+                    {testMode !== "random" && (
+                        <div className="flex justify-center w-full">
+                            {testMode === "cat" ? (
+                                <div className="flex justify-center w-full">
+                                    <FormControl>
+                                        <FormLabel id="demo-radio-buttons-group-label" className="text-center">試験科目</FormLabel>
+                                        <RadioGroup
+                                            row
+                                            aria-labelledby="demo-radio-buttons-group-label"
+                                            value={selectedCategory}
+                                            name="radio-buttons-group"
+                                            onChange={(e)=>{
+                                                handleParams({sections:getSections(selected, e.target.value)});
+                                                setSelectedCategory(e.target.value);
+                                            }}
+                                        >
+                                            <FormControlLabel value="vocabulario" control={<Radio />} label="文字・語彙" />
+                                            <FormControlLabel value="gramatica" control={<Radio />} label="文法" />
+                                        </RadioGroup>
+                                    </FormControl>
+                                </div>
+                            ) : (
+                                <div className="flex justify-center w-full">
+                                    <FormControl>
+                                        <FormLabel id="demo-radio-buttons-group-label" className="text-center">大問</FormLabel>
+                                        <ul className="flex justify-center w-full flex-wrap">
+                                            {getSections(selected).map((section)=>(
+                                                <li key={section} className="flex items-center">
+                                                    <Checkbox
+                                                        name={section} onChange={(e)=>handleSection(e.target.name)}
+                                                    />
+                                                    <p>{getJapaneseName(section)}</p>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </FormControl>
+                                </div>
+                            )}
+                        </div>
+                    )}
                     <button className="w-full text-lg bg-blue-500 border-blue-800 border-2 px-4 py-2 rounded-xl text-white font-semibold"
                         onClick={()=>{
                             handleParams({level:selected, type:"normal"});
