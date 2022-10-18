@@ -143,6 +143,9 @@ function Quiz():React.ReactElement {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const parsedWrong:Wrong = JSON.parse(wrong);
             const parsedLevel = parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"];
+            if (!parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"][questions[currentQuestion].type as keyof typeof parsedLevel]) {
+                parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"][questions[currentQuestion].type as keyof typeof parsedLevel] = [];
+            }
             parsedWrong[params.level as "N1" | "N2" | "N3" | "N4" | "N5"][questions[currentQuestion].type as keyof typeof parsedLevel].push(questions[currentQuestion]._id);
             window.localStorage.setItem("wrong", JSON.stringify(parsedWrong));
         }
