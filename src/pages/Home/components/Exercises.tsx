@@ -2,6 +2,7 @@ import React, {useState} from "react";
 
 import {FormControl, MenuItem, Select} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 import {useTest} from "../../../contexts/TestContext";
 import {levelData} from "../../../types/data";
@@ -10,12 +11,42 @@ import {SectionStats, Stats} from "../../../types/stats";
 export function Exercises():React.ReactElement {
     const {handleParams} = useTest();
     const stats = window.localStorage.getItem("stats");
+    const [statsCode, setStatsCode] = useState("");
     const [selectedLevel, setSelectedLevel] = useState(window.localStorage.getItem("lastlevel") || "N5");
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const parsedStats:Stats = JSON.parse(stats || "");
 
     const navigate = useNavigate();
+
+    async function createCode():Promise<void> {
+        const code = Math.round(((36 ** (12 + 1)) - (Math.random() * (36 ** 12)))).toString(36).slice(1);
+        const encodedStats = btoa(window.localStorage.getItem("stats") || "");
+        const encodedWrong = btoa(window.localStorage.getItem("wrong") || "");
+        const body = JSON.stringify({code, encodedStats, encodedWrong});
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/codes/create`, {method:"POST", body:body, headers:{"Content-Type": "application/json"}});
+        if (response.status === 201) {
+            toast.success("Success");
+            setStatsCode(code);
+        } else {
+            toast.error("Something went wrong");
+        }
+    }
+
+    async function loadCode(e:React.FormEvent<HTMLFormElement>):Promise<void> {
+        e.preventDefault();
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/codes/${statsCode}`, {method:"GET"});
+        if (response.status === 200) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const data = await response.json();
+            const stringifiedStats = atob(data.encodedStats);
+            const stringifiedWrong = atob(data.encodedWrong);
+            window.localStorage.setItem("stats", stringifiedStats);
+            window.localStorage.setItem("wrong", stringifiedWrong);
+            toast.success("Data successfully loaded");
+            window.location.reload();
+        }
+    }
 
     return (
         <div>
@@ -101,6 +132,16 @@ export function Exercises():React.ReactElement {
                 }
                 )}
             </ul>
+            <div className="my-2">
+
+            </div>
+            <div className="flex w-full justify-around my-4">
+                <button className="bg-white rounded-lg px-4 py-2" onClick={createCode}>Save cookies</button>
+                <form className="flex gap-2" onSubmit={loadCode}>
+                    <input type="text" value={statsCode} onChange={(e)=>setStatsCode(e.target.value)}/>
+                    <button className="bg-white rounded-lg px-4 py-2">Load cookies</button>
+                </form>
+            </div>
             <div className="w-full flex justify-center">
                 <button className="border-2 border-red-500 bg-white text-red-500 px-4 py-2 rounded-lg my-4 hover:bg-red-500 hover:text-white" onClick={()=>{
                     if (confirm("Are you sure?")) {
