@@ -95,11 +95,12 @@ export function Exercises():React.ReactElement {
                                             .correct}
                                         </p>
                                     </div>
-                                    <div className={"h-full bg-red-500 rounded-r-full flex items-center justify-center"} style={{width:`${wrongPercentage}%`}}>
-                                        <p className="text-xs text-white font-semibold">{(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats)
-                                            .wrong}
-                                        </p>
-                                    </div>
+                                    {((parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats)
+                                        .correct > 0) && (
+                                        <div className={"h-full bg-red-500 rounded-r-full flex items-center justify-center"} style={{width:`${wrongPercentage}%`}}>
+                                            <p className="text-xs text-white font-semibold">{(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats).wrong}</p>
+                                        </div>
+                                    )}
                                     {(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as
                                             SectionStats).correct +
                                     (parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats).wrong <
@@ -153,11 +154,11 @@ export function Exercises():React.ReactElement {
                     if (confirm("Are you sure?")) {
                         window.localStorage.setItem("stats", `{
                             "N1":{
-                                "kanji":{"correct":0, "wrong":0,"total":0,"quantity":596},
+                                "kanji":{"correct":0, "wrong":0,"total":0,"quantity":594},
                                 "contexto":{"correct":0, "wrong":0,"total":0,"quantity":203},
                                 "parafrases":{"correct":0, "wrong":0,"total":0,"quantity":176},
                                 "uso":{"correct":0, "wrong":0,"total":0,"quantity":171},
-                                "gramaticafrases":{"correct":0, "wrong":0,"total":0,"quantity":597},
+                                "gramaticafrases":{"correct":0, "wrong":0,"total":0,"quantity":592},
                                 "ordenar":{"correct":0, "wrong":0,"total":0,"quantity":173},
                                 "passedTimes":0
                             },

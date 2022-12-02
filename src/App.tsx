@@ -17,11 +17,11 @@ function App():React.ReactElement {
     if (!stats) {
         window.localStorage.setItem("stats", `{
             "N1":{
-                "kanji":{"correct":0, "wrong":0,"total":0,"quantity":596},
+                "kanji":{"correct":0, "wrong":0,"total":0,"quantity":594},
                 "contexto":{"correct":0, "wrong":0,"total":0,"quantity":203},
                 "parafrases":{"correct":0, "wrong":0,"total":0,"quantity":176},
                 "uso":{"correct":0, "wrong":0,"total":0,"quantity":171},
-                "gramaticafrases":{"correct":0, "wrong":0,"total":0,"quantity":597},
+                "gramaticafrases":{"correct":0, "wrong":0,"total":0,"quantity":592},
                 "ordenar":{"correct":0, "wrong":0,"total":0,"quantity":173},
                 "passedTimes":0
             },
