@@ -41,6 +41,9 @@ function Quiz():React.ReactElement {
                 const levelStats = parsedStats[level];
                 const section = params.sections[0] as keyof typeof levelStats;
                 params.skip = (levelStats[section] as SectionStats).total;
+                if ((levelStats[section] as SectionStats).total + 10 > (levelStats[section] as SectionStats).quantity) {
+                    params.questionNum = (levelStats[section] as SectionStats).quantity - (levelStats[section] as SectionStats).total;
+                }
             } else if (params.type === "retry") {
                 const wrongAnswers = window.localStorage.getItem("wrong");
                 if (!wrongAnswers || !params.level || !params.sections) return;

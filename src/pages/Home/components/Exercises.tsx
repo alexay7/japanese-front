@@ -100,12 +100,18 @@ export function Exercises():React.ReactElement {
                                             .wrong}
                                         </p>
                                     </div>
-                                    <div className="h-full flex items-center justify-center" style={{width:`${100 - parseInt(wrongPercentage) - parseInt(correctPercentage)}%`}}>
-                                        <p className="text-xs text-black font-semibold">{(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats)
-                                            .quantity -
+                                    {(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as
+                                            SectionStats).correct +
+                                    (parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats).wrong <
+                                    (parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats)
+                                        .quantity && (
+                                        <div className="h-full flex items-center justify-center" style={{width:`${100 - parseInt(wrongPercentage) - parseInt(correctPercentage)}%`}}>
+                                            <p className="text-xs text-black font-semibold">{(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats)
+                                                .quantity -
                                         (parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats).total}
-                                        </p>
-                                    </div>
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="flex gap-2 py-2">
                                     <p className="text-green-500 font-semibold">正解: {(parsedStats[selectedLevel as keyof Stats][exerciseType as keyof typeof exerciseTypes] as SectionStats)
