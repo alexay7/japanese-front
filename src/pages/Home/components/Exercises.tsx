@@ -155,11 +155,11 @@ export function Exercises():React.ReactElement {
                         window.localStorage.setItem("stats", `{
                             "N1":{
                                 "kanji":{"correct":0, "wrong":0,"total":0,"quantity":594},
-                                "contexto":{"correct":0, "wrong":0,"total":0,"quantity":203},
+                                "contexto":{"correct":0, "wrong":0,"total":0,"quantity":205},
                                 "parafrases":{"correct":0, "wrong":0,"total":0,"quantity":176},
                                 "uso":{"correct":0, "wrong":0,"total":0,"quantity":171},
                                 "gramaticafrases":{"correct":0, "wrong":0,"total":0,"quantity":592},
-                                "ordenar":{"correct":0, "wrong":0,"total":0,"quantity":173},
+                                "ordenar":{"correct":0, "wrong":0,"total":0,"quantity":178},
                                 "passedTimes":0
                             },
                             "N2":{

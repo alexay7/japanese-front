@@ -18,7 +18,7 @@ function App():React.ReactElement {
         window.localStorage.setItem("stats", `{
             "N1":{
                 "kanji":{"correct":0, "wrong":0,"total":0,"quantity":594},
-                "contexto":{"correct":0, "wrong":0,"total":0,"quantity":203},
+                "contexto":{"correct":0, "wrong":0,"total":0,"quantity":205},
                 "parafrases":{"correct":0, "wrong":0,"total":0,"quantity":176},
                 "uso":{"correct":0, "wrong":0,"total":0,"quantity":171},
                 "gramaticafrases":{"correct":0, "wrong":0,"total":0,"quantity":592},
